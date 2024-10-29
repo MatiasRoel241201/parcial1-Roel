@@ -6,7 +6,7 @@ public interface INaveNodriza {
     void agregarNave(Nave nave);
     void eliminarNave(Nave nave);
 
-    Float getDanio();
+    Float getDanioOfensivo();
 
     Float getDanioTotal();
 }

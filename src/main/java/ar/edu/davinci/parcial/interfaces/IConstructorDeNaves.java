@@ -4,7 +4,8 @@ import ar.edu.davinci.parcial.Nave;
 
 public interface IConstructorDeNaves {
 
-    public Nave getResultado();
+    public Nave getResultadoNaveDeAtaqueConstruida();
+
 
 
 }

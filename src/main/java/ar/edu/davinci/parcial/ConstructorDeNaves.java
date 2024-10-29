@@ -24,7 +24,7 @@ public class ConstructorDeNaves implements IConstructorDeNaves {
     }
 
     @Override
-    public Nave getResultado(){
+    public Ataque getResultadoNaveDeAtaqueConstruida(){
         Ataque nave = new Ataque(this.danio, this.cantTripulantes, this.combustible);
         this.resetearCampos();
         return nave;
@@ -42,18 +42,22 @@ public class ConstructorDeNaves implements IConstructorDeNaves {
     }
 
     public ConstructorDeNaves agregarCombustible(Integer combustible){
-
+        this.combustible =+ combustible;
+        return this;
     }
 
     public ConstructorDeNaves agregarEnergia(Integer energia){
-
+        this.energia =+ energia;
+        return this;
     }
 
     public ConstructorDeNaves agregarEscudo(Integer escudo){
-
+        this.escudo =+ escudo;
+        return this;
     }
 
     public ConstructorDeNaves agregarMisiles(Integer misil){
-
+        this.cantMisiles =+ misil;
+        return this;
     }
 }
