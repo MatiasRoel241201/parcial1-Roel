@@ -11,13 +11,11 @@ import java.util.Set;
 class Nodriza extends Nave implements INaveNodriza {
 
     private Set<Nave> flota;
-
-    private Float danioOfensivo;
-    private int capacidadMaxima;
+    private Integer danioOfensivo, capacidadMaxima, danio;
     private ConstructorDeNaves constructor;
 
-    public Nodriza(Integer danio, Integer escudo,Float combustible, int capacidadMaxima, Float danioOfensivo, ConstructorDeNaves constructor) {
-        super(danio, escudo, combustible);
+    public Nodriza(Integer danio, Integer energia, Integer escudo,Integer combustible, Integer capacidadMaxima, Integer danioOfensivo, ConstructorDeNaves constructor) {
+        super(danio, escudo, combustible, energia);
         this.danioOfensivo = danioOfensivo;
         this.capacidadMaxima = capacidadMaxima;
         this.flota = new HashSet<>();
@@ -26,29 +24,17 @@ class Nodriza extends Nave implements INaveNodriza {
 
     @Override
     public void atacar(Nave nave) {
-        //nave.recibirDano(this.getDanio());
-        this.flota.stream().forEach( nav -> nav.atacar(nave));
+        nave.recibirDano(this.danioOfensivo);
+        for (Nave n : flota) {
+            n.atacar(nave);
+        }
     }
 
-    @Override
-    public int calcularDanoNave() {
-        return 0;
-    }
 
     @Override
     public void agregarNave(Nave nave) {
-        if (nave != null) flota.add(nave);
+        flota.add(nave);
     }
-
-    public ConstructorDeNaves agregarTripulante(){
-        return constructor.agregarTripulante();
-    }
-
-    public void agregarNaveDeAtaqueConstruida(){
-        Ataque nave = constructor.getResultadoNaveDeAtaqueConstruida();
-        this.agregarNave(nave);
-    }
-
 
     @Override
     public void eliminarNave(Nave nave) {
@@ -56,16 +42,70 @@ class Nodriza extends Nave implements INaveNodriza {
     }
 
     @Override
-    public Float getDanioOfensivo(){
+    public Integer getDanioOfensivo(){
         return null;
     }
 
     @Override
-    public Float getDanioTotal() {
-        Float danioTotal = danioOfensivo;
+    public Integer getDanioTotal() {
+        Integer danioTotal = danioOfensivo;
         for (Nave nave : flota) {
-            danioTotal += nave.calcularDanoNave();
+            danioTotal += nave.getDanio();
         }
         return danioTotal;
+    }
+
+    @Override
+    public Integer getCombustible() {
+       return this.combustible;
+    }
+
+    @Override
+    public Integer getNivelEscudo() {
+        return this.escudo;
+    }
+
+    @Override
+    public Integer getEnergia() {
+        return this.energia;
+    }
+
+    @Override
+    public void recibirDanio(Integer danio) {
+        this.escudo -= danio;
+    }
+
+    @Override
+    public void crearNaveAtaque(Integer danio, Integer escudo, Integer combustible, Integer energia, Integer cantTripulantes, Integer cantMisiles) {
+        Ataque nuevaNave = constructor.setDanio(danio)
+                .setEscudo(escudo)
+                .setCombustible(combustible)
+                .setEnergia(energia)
+                .setCantTripulante(cantTripulantes)
+                .getNewNaveAtaque();
+        agregarNave(nuevaNave);
+    }
+
+    @Override
+    public void crearNaveMixta(Integer danio, Integer escudo, Integer combustible, Integer energia, Integer cantTripulantes, Integer cantConsules, Integer cantMisiles) {
+        Mixta nuevaNave = constructor.setDanio(danio)
+                .setEscudo(escudo)
+                .setCombustible(combustible)
+                .setEnergia(energia)
+                .setCantTripulante(cantTripulantes)
+                .setCantConsul(cantConsules)
+                .getNewNaveMixta();
+        agregarNave(nuevaNave);
+    }
+
+    @Override
+    public void crearNaveEmbajadora(Integer danio, Integer escudo, Integer combustible, Integer energia, Integer cantConsules) {
+        Embajadora nuevaNave = constructor.setDanio(danio)
+                .setEscudo(escudo)
+                .setCombustible(combustible)
+                .setEnergia(energia)
+                .setCantConsul(cantConsules)
+                .getNewNaveEmbajadora();
+        agregarNave(nuevaNave);
     }
 }

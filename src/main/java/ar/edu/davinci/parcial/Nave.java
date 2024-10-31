@@ -2,13 +2,11 @@ package ar.edu.davinci.parcial;
 
 import ar.edu.davinci.parcial.interfaces.INave;
 
-// --- Patron composite ---
-// Esta clase es la utilizo para modelar el comportamiento en comun que tienen mis clases
 public abstract class Nave implements INave {
-    protected Integer danio, escudo, energia;
-    protected Float combustible;
+    protected Integer danio, escudo, energia, combustible;
 
-    public Nave(Integer danio, Integer escudo, Float combustible) {
+    public Nave(Integer danio, Integer escudo, Integer combustible, Integer energia) {
+        this.danio = danio;
         this.combustible = combustible;
         this.escudo = 100;
         this.energia = 100;
@@ -16,7 +14,7 @@ public abstract class Nave implements INave {
 
     public abstract void atacar(Nave nave);
 
-    public abstract int calcularDanoNave();
+    public abstract Integer getDanioOfensivo();
 
     public void recibirDano(Integer danio) {
         this.energia -= danio;
@@ -26,8 +24,5 @@ public abstract class Nave implements INave {
         return null;
     }
 
-    public boolean estaActiva() {
-        return escudo > 0;
-    }
 }
 

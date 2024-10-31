@@ -3,6 +3,11 @@ package ar.edu.davinci.parcial.interfaces;
 import ar.edu.davinci.parcial.Nave;
 
 public interface INave {
-    void atacar(Nave nave);
+    Integer getCombustible();
+    Integer getNivelEscudo();
+    Integer getEnergia();
+    Integer getDanioOfensivo();
 
+    void atacar(Nave nave);
+    void recibirDanio(Integer danio);
 }
