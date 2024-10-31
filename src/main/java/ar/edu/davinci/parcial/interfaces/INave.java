@@ -10,4 +10,6 @@ public interface INave {
 
     void atacar(Nave nave);
     void recibirDanio(Integer danio);
+
+    boolean viajarAOtroPlaneta(IPlaneta planeta);
 }

@@ -44,5 +44,4 @@ public class Ataque extends Nave {
     public void recibirDanio(Integer danio) {
         this.escudo -= danio;
     }
-
 }
