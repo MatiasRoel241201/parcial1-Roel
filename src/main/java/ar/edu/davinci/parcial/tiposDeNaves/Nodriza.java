@@ -1,18 +1,21 @@
 package ar.edu.davinci.parcial.tiposDeNaves;
 
 import ar.edu.davinci.parcial.ConstructorDeNaves;
+import ar.edu.davinci.parcial.interfaces.IMisionHandler;
 import ar.edu.davinci.parcial.interfaces.INaveNodriza;
 import ar.edu.davinci.parcial.Nave;
+import ar.edu.davinci.parcial.misiones.Mision;
 
 
 import java.util.HashSet;
 import java.util.Set;
 
-class Nodriza extends Nave implements INaveNodriza {
+class Nodriza extends Nave implements INaveNodriza, IMisionHandler {
 
     private Set<Nave> flota;
     private Integer danioOfensivo, capacidadMaxima, danio;
     private ConstructorDeNaves constructor;
+    private IMisionHandler siguienteManejador;
 
     public Nodriza(Integer danio, Integer energia, Integer escudo,Integer combustible, Integer capacidadMaxima, Integer danioOfensivo, ConstructorDeNaves constructor) {
         super(danio, escudo, combustible, energia);
@@ -44,6 +47,11 @@ class Nodriza extends Nave implements INaveNodriza {
     @Override
     public Integer getDanioOfensivo(){
         return null;
+    }
+
+    @Override
+    public int modificarDanioParaAtaquePoderoso(int danio) {
+        return danio * 2;
     }
 
     @Override
@@ -107,5 +115,24 @@ class Nodriza extends Nave implements INaveNodriza {
                 .setCantConsul(cantConsules)
                 .getNewNaveEmbajadora();
         agregarNave(nuevaNave);
+    }
+
+    @Override
+    public void setSiguienteManejador(IMisionHandler manejador) {
+        this.siguienteManejador = manejador;
+    }
+
+    @Override
+    public void manejarMision(Mision mision) {
+        boolean misionManejada = false;
+
+        for (Nave nave : flota) {
+            ((IMisionHandler) nave).manejarMision(mision);
+            misionManejada = true;
+        }
+
+        if (!misionManejada && siguienteManejador != null) {
+            siguienteManejador.manejarMision(mision);
+        }
     }
 }
